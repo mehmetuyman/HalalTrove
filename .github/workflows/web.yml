@@ -1,36 +1,37 @@
-name: HalalTrove
-on:
-  push:
-  # (1)
-  branches:
-    - "halaltrove"
-jobs:
-  build_and_deploy_web:
-    name: Build & Deploy Flutter to Web
-    runs-on: ubuntu-latest
-    # (2)
-    steps:
-      - uses: actions/checkout@v2
+  name: HalalTrove
 
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
+  on:
+    push:
+    # (1)
+      branches:
+        - "halaltrove"
+  jobs:
+    build_and_deploy_web:
+      name: Build & Deploy Flutter to Web
+      runs-on: ubuntu-latest
+      # (2)
+      steps:
+        - uses: actions/checkout@v2
 
-      - name: Enable Web
-        run: flutter config --enable-web
+        - uses: subosito/flutter-action@v2
+          with:
+            channel: "stable"
 
-      - name: Get packages
-        run: flutter pub get
+        - name: Enable Web
+          run: flutter config --enable-web
 
-      - name: Build Web Application
-        run: flutter build web --release
+        - name: Get packages
+          run: flutter pub get
 
-      # (3)
-      - name: Make copy of artifacts
-        run: |
-          chmod u+x "${GITHUB_WORKSPACE}/createandcopytofolder.sh"
-          bash "${GITHUB_WORKSPACE}/createandcopytofolder.sh"
-      # (4)
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-        connit_message: Commit the artifacts.
+        - name: Build Web Application
+          run: flutter build web --release
+
+        # (3)
+        - name: Make copy of artifacts
+          run: |
+            chmod u+x "${GITHUB_WORKSPACE}/createandcopytofolder.sh"
+            bash "${GITHUB_WORKSPACE}/createandcopytofolder.sh"
+        # (4)
+        - uses: stefanzweifel/git-auto-commit-action@v4
+          with:
+          connit_message: Commit the artifacts.
