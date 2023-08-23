@@ -1,13 +1,36 @@
-name: Halal Trove
-
-on:
+name: HalalTrove
+"on":
   push:
-    branches: [ main ]
-
+  # (1)
+  branches:
+    - "halaltrove"
 jobs:
-  build:
+  build_and_deploy_web:
+    name: Build & Deploy Flutter to Web
     runs-on: ubuntu-latest
-
+    # (2)
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+
+      - name: Enable Web
+        run: flutter config --enable-web
+
+      - name: Get packages
+        run: flutter pub get
+
+      - name: Build Web Application
+        run: flutter build web --release
+
+      # (3)
+      - name: Make copy of artifacts
+        run: |
+          chmod u+x "${GITHUB_WORKSPACE}/createandcopytofolder.sh"
+          bash "${GITHUB_WORKSPACE}/createandcopytofolder.sh"
+      # (4)
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+        connit_message: Commit the artifacts.
