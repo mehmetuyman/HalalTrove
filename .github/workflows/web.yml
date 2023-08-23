@@ -1,5 +1,5 @@
 name: HalalTrove
-"on":
+on:
   push:
   # (1)
   branches:
