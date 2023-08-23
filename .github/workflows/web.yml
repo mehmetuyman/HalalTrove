@@ -4,7 +4,7 @@
     push:
     # (1)
       branches:
-        - "halaltrove"
+        - main
   jobs:
     build_and_deploy_web:
       name: Build & Deploy Flutter to Web
