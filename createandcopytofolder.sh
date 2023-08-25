@@ -1,4 +1,4 @@
 #!/bin/bash
-[[ -d artifacts ]] && rm -r artifacts
+[[ -d artifacts ]] && rm -r docs
 mkdir artifacts
-cp -R build/web artifacts
+cp -R build/ docs
